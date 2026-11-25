@@ -12,7 +12,8 @@ import { StatCard } from '@/components/ui/StatCard'
 import { cn } from '@/lib/cn'
 import { formatMoney, formatMoneyCompact, formatNumber } from '@/lib/format'
 import { DEAL_STAGE, DEAL_TYPE, LEAD_STAGE } from '@/lib/labels'
-import { communityBySlug, CURRENT_USER_ID, customerById, employeeById } from '@/mocks/core'
+import { currentUserId } from '@/lib/auth'
+import { communityBySlug, customerById, employeeById } from '@/mocks/core'
 import { leadById, listingById, offplanById } from '@/mocks/domain'
 import type { Deal } from '@/types/domain'
 import { TasksDueCard, UpcomingEventsCard } from './AgendaCards'
@@ -30,7 +31,7 @@ export function dealProperty(d: Pick<Deal, 'listingId' | 'projectId' | 'communit
 export function DashboardPage() {
   const { loading, data } = useDashboard()
   const [range, setRange] = useState<'6' | '12'>('12')
-  const me = employeeById(CURRENT_USER_ID)
+  const me = employeeById(currentUserId())
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
 

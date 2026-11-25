@@ -188,3 +188,27 @@ body {
     color-scheme: light;
   }
 }
+
+/* Login page: slow Ken Burns on the skyline photo, shake on a failed sign-in. */
+@keyframes login-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes login-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}

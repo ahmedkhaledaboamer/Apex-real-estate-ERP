@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/Button'
 import { Menu } from '@/components/ui/Menu'
 import { toast } from '@/components/ui/Toast'
 import { cn } from '@/lib/cn'
-import { CURRENT_USER_ID, employeeById } from '@/mocks/core'
+import { currentUserId, signOut } from '@/lib/auth'
+import { employeeById } from '@/mocks/core'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setCommandOpen, setSidebarOpen, toggleTheme } from '@/store/uiSlice'
 import { QUICK_ACTIONS } from './CommandPalette'
@@ -16,7 +17,7 @@ export function Topbar() {
   const dispatch = useAppDispatch()
   const theme = useAppSelector((s) => s.ui.theme)
   const navigate = useNavigate()
-  const me = employeeById(CURRENT_USER_ID)
+  const me = employeeById(currentUserId())
   const [notifOpen, setNotifOpen] = useState(false)
 
   return (
@@ -58,9 +59,14 @@ export function Topbar() {
           {me && (
             <Menu
               items={[
-                { label: 'My profile', icon: <User />, onSelect: () => navigate({ to: '/hr' }) },
+                { label: 'My profile', icon: <User />, onSelect: () => navigate({ to: '/hr/employees/$employeeId', params: { employeeId: me.id } }) },
                 { label: 'Settings', icon: <Settings />, onSelect: () => navigate({ to: '/settings' }) },
-                { label: 'Sign out', icon: <LogOut />, danger: true, onSelect: () => toast.info('Demo mode: sign-in is not enabled yet') },
+                { label: 'Sign out', icon: <LogOut />, danger: true, onSelect: () => {
+                    signOut()
+                    toast.info('You have been signed out')
+                    navigate({ to: '/login', replace: true })
+                  },
+                },
               ]}
               trigger={(p) => (
                 <button type="button" {...p} className={cn('ms-1 flex items-center gap-2.5 rounded-xl p-1 pe-2 transition-colors hover:bg-surface-2')}>
