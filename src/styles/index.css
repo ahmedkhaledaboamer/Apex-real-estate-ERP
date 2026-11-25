@@ -1,0 +1,190 @@
+@import 'tailwindcss';
+
+/* Dark mode is a class on <html> (set before paint in index.html, toggled from the top bar). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/*  Apex Aora brand + semantic tokens.                                 */
+/*  Brand colours are fixed; surface/text tokens switch with .dark.    */
+/*  Use: bg-bg, bg-surface, bg-surface-2, text-fg, text-muted,         */
+/*  border-line, bg-aura, text-aura, bg-brand-gradient …               */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-aura: #843f96;
+  --color-plum: #381a4c;
+  --color-indigo: #563d96;
+  --color-royal: #275ba8;
+  --color-cyan: #3cb4e8;
+
+  --color-success: #1f9d64;
+  --color-warning: #d9891a;
+  --color-danger: #d64545;
+  --color-info: #2f7fd6;
+
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+
+  --radius-card: 16px;
+
+  --shadow-soft: 0 1px 2px rgb(56 26 76 / 0.04), 0 4px 14px rgb(56 26 76 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(56 26 76 / 0.06), 0 16px 40px rgb(56 26 76 / 0.14);
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --animate-rise: rise 0.28s cubic-bezier(0.23, 1, 0.32, 1) both;
+  --animate-slide-in: slide-in 0.32s cubic-bezier(0.23, 1, 0.32, 1) both;
+  --animate-fade: fade 0.2s ease-out both;
+  --animate-slide-in-start: slide-in-start 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes slide-in-start {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-sidebar: var(--sidebar);
+}
+
+:root {
+  --bg: #f6f4f9;
+  --surface: #ffffff;
+  --surface-2: #f2edf7;
+  --fg: #1e1828;
+  --muted: #6b6178;
+  --line: #e6dfee;
+  --sidebar: #1c1226;
+  color-scheme: light;
+}
+.dark {
+  --bg: #110b18;
+  --surface: #1a1324;
+  --surface-2: #241a31;
+  --fg: #f1ecf7;
+  --muted: #a397b3;
+  --line: #2f2540;
+  --sidebar: #0d0812;
+  color-scheme: dark;
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(120deg, var(--color-aura), var(--color-indigo) 55%, var(--color-royal));
+}
+@utility text-brand-gradient {
+  background-image: linear-gradient(120deg, var(--color-aura), var(--color-royal));
+  background-clip: text;
+  color: transparent;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  font-size: 14px;
+}
+::selection {
+  background: rgb(132 63 150 / 0.22);
+}
+:focus-visible {
+  outline: 2px solid var(--color-aura);
+  outline-offset: 2px;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Recharts: inherit theme colours */
+.recharts-cartesian-grid line {
+  stroke: var(--line);
+}
+.recharts-text {
+  fill: var(--muted);
+  font-size: 12px;
+}
+.recharts-surface:focus,
+.recharts-wrapper:focus,
+.recharts-sector:focus {
+  outline: none;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2');
+}
+
+/* Printing always uses the light palette (invoices, quotations, payslips, reports). */
+@media print {
+  :root,
+  .dark {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f2edf7;
+    --fg: #1e1828;
+    --muted: #6b6178;
+    --line: #e6dfee;
+    color-scheme: light;
+  }
+}

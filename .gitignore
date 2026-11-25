@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-ssr
+.tanstack
+*.local
+.env
+.env.*
+!.env.example
+.vite
+coverage
+.DS_Store
+Thumbs.db
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea
